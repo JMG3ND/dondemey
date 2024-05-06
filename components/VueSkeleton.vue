@@ -1,8 +1,16 @@
 <template>
   <div>
     <div :style="`padding-top: ${headerHeight}px`" class="skeleton">
-      <header v-if="$slots.header" ref="header" class="skeleton__header">
+      <header
+        id="header"
+        v-if="$slots.header"
+        ref="header"
+        class="skeleton__header"
+      >
         <slot name="header" />
+        <button class="skeleton__showTable" @click="showTable = !showTable">
+          Tabla de contenido
+        </button>
       </header>
       <div
         :class="
@@ -29,12 +37,19 @@
 
 <script setup lang="ts">
 //Se obtiene el tamaño del header para ponerlo como padding al esqueleto
-const header = ref();
-const headerHeight = computed(() =>
-  typeof header.value === "object"
-    ? header.value.getBoundingClientRect().height
+const header = ref<HTMLElement | null>(null);
+const headerHeight = computed<Number>(():Number =>
+  header.value
+    ? header.value?.offsetHeight
     : 0
 );
+
+onMounted(() => {
+  console.log(header.value)
+})
+
+//Variable que oculta y muestra la tabla de contenido en dispositivos móviles
+const showTable = ref(false);
 </script>
 
 <style lang="scss" scoped>
@@ -58,6 +73,17 @@ const headerHeight = computed(() =>
   &__aside {
     &__container {
       position: sticky;
+    }
+  }
+  &__showTable {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .skeleton {
+    &__showTable {
+      display: block;
     }
   }
 }
