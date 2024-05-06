@@ -4,12 +4,10 @@
       <template #header>
         <ContentHeader />
       </template>
-      <template #main>
-        <NuxtPage/>
-      </template>
       <template #aside>
         <ContentAside />
       </template>
+      <NuxtPage />
     </VueSkeleton>
   </div>
   <div></div>
