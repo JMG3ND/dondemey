@@ -1,14 +1,9 @@
 <template>
   <div>
-    <div :style="`padding-top: ${headerHeight}px`" class="skeleton">
-      <header
-        id="header"
-        v-if="$slots.header"
-        ref="header"
-        class="skeleton__header"
-      >
+    <div class="skeleton">
+      <header ref="header" v-if="$slots.header" class="skeleton__header">
         <slot name="header" />
-        <button class="skeleton__showTable" @click="showTable = !showTable">
+        <button class="skeleton__showTable" @click="showAside = !showAside">
           Tabla de contenido
         </button>
       </header>
@@ -20,10 +15,7 @@
         "
       >
         <aside v-if="$slots.aside" class="skeleton__aside">
-          <div
-            :style="`top: ${headerHeight}px`"
-            class="skeleton__aside__container"
-          >
+          <div :class="`skeleton__aside__container ${showAsideClass}`">
             <slot name="aside" />
           </div>
         </aside>
@@ -36,29 +28,25 @@
 </template>
 
 <script setup lang="ts">
-//Se obtiene el tamaño del header para ponerlo como padding al esqueleto
+//Margenes del header
 const header = ref<HTMLElement | null>(null);
-const headerHeight = computed<Number>(():Number =>
-  header.value
-    ? header.value?.offsetHeight
-    : 0
+const headerHeight = computed<string>(() =>
+  header.value ? `${header.value?.offsetHeight}px` : "0px"
 );
-
-onMounted(() => {
-  console.log(header.value)
-})
-
-//Variable que oculta y muestra la tabla de contenido en dispositivos móviles
-const showTable = ref(false);
+//Lógica del aside
+const showAside = ref<boolean>(false);
+const showAsideClass = computed<string>(() =>
+  showAside.value ? "skeleton__aside__container--show" : ""
+);
 </script>
 
 <style lang="scss" scoped>
+$asideWidth: 300px;
+
 .skeleton {
-  padding-left: 1rem;
-  padding-right: 1rem;
   &__header {
     z-index: 1;
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
@@ -66,13 +54,14 @@ const showTable = ref(false);
   &__container {
     &--with-aside {
       display: grid;
-      grid-template-columns: 300px 3fr;
+      grid-template-columns: $asideWidth 1fr;
       gap: 1rem;
     }
   }
   &__aside {
     &__container {
       position: sticky;
+      top: v-bind(headerHeight);
     }
   }
   &__showTable {
@@ -84,6 +73,26 @@ const showTable = ref(false);
   .skeleton {
     &__showTable {
       display: block;
+    }
+    &__container {
+      &--with-aside {
+        display: block;
+      }
+    }
+    &__aside {
+      &__container {
+        background-color: white;
+        position: fixed;
+        width: $asideWidth;
+        left: 0;
+        top: v-bind(headerHeight);
+        bottom: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        &--show {
+          transform: translate(0);
+        }
+      }
     }
   }
 }
