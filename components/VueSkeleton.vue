@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="skeleton">
-      <header ref="header" v-if="$slots.header" class="skeleton__header">
+      <header
+        ref="header"
+        v-if="$slots.header"
+        class="skeleton__header"
+      >
         <slot name="header" />
         <button class="skeleton__showTable" @click="showAside = !showAside">
           Tabla de contenido
@@ -30,9 +34,16 @@
 <script setup lang="ts">
 //Margenes del header
 const header = ref<HTMLElement | null>(null);
-const headerHeight = computed<string>(() =>
-  header.value ? `${header.value?.offsetHeight}px` : "0px"
-);
+const headerHeight = ref<string>("0px");
+const changeHeight = () => {
+  headerHeight.value = `${header.value?.offsetHeight}px`;
+};
+onMounted(() => {
+  changeHeight();
+  window.addEventListener("resize", changeHeight);
+});
+onUnmounted(() => window.removeEventListener("resize", changeHeight));
+
 //Lógica del aside
 const showAside = ref<boolean>(false);
 const showAsideClass = computed<string>(() =>
