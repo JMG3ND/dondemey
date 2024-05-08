@@ -46,7 +46,7 @@ $asideWidth: 300px;
 .skeleton {
   &__header {
     z-index: 1;
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -56,6 +56,7 @@ $asideWidth: 300px;
       display: grid;
       grid-template-columns: $asideWidth 1fr;
       gap: 1rem;
+      padding-top: v-bind(headerHeight);
     }
   }
   &__aside {
