@@ -58,6 +58,7 @@ const showAsideClass = computed<string>(() =>
 </script>
 
 <style lang="scss" scoped>
+@import '/assets/theme-colors';
 $asideWidth: 300px;
 
 .skeleton {
@@ -102,7 +103,7 @@ $asideWidth: 300px;
     }
     &__aside {
       &__container {
-        background-color: white;
+        @include backgrondBlur;
         position: fixed;
         width: $asideWidth;
         left: 0;

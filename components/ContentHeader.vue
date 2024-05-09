@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <h1>DondeMey</h1>
+      <img class="container__image" src="/public/logo.png" />
     </div>
   </div>
 </template>
@@ -11,8 +11,14 @@
 </script>
 
 <style lang="scss" scoped>
+@import '/assets/theme-colors.scss';
 .container {
-  padding: 1rem;
-  background-color: rgb(155, 179, 171);
+  padding-left: 2rem;
+  padding-top: 0.5rem;
+  @include backgrondBlur;
+
+  &__image {
+    max-height: 50px;
+  }
 }
 </style>
