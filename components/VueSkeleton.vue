@@ -1,15 +1,11 @@
 <template>
   <div>
     <div class="skeleton">
-      <header
-        ref="header"
-        v-if="$slots.header"
-        class="skeleton__header"
-      >
+      <header ref="header" v-if="$slots.header" class="skeleton__header">
         <slot name="header" />
-        <button class="skeleton__showTable" @click="showAside = !showAside">
-          Tabla de contenido
-        </button>
+        <div class="skeleton__showTable">
+          <VueButtonShow @event-click="changeShowAside">Tabla de contenido</VueButtonShow>
+        </div>
       </header>
       <div
         :class="
@@ -19,6 +15,11 @@
         "
       >
         <aside v-if="$slots.aside" class="skeleton__aside">
+          <div
+            v-if="showAside"
+            @click="changeShowAside"
+            class="skeleton__aside__panel"
+          />
           <div :class="`skeleton__aside__container ${showAsideClass}`">
             <slot name="aside" />
           </div>
@@ -32,7 +33,9 @@
 </template>
 
 <script setup lang="ts">
-//Margenes del header
+//Márgenes del header
+//Se hace esto ya que se quiere lograr que haya un márgen de espacio libre
+//para que el header tape el contenido de la página
 const header = ref<HTMLElement | null>(null);
 const headerHeight = ref<string>("0px");
 const changeHeight = () => {
@@ -46,6 +49,9 @@ onUnmounted(() => window.removeEventListener("resize", changeHeight));
 
 //Lógica del aside
 const showAside = ref<boolean>(false);
+const changeShowAside = (): void => {
+  showAside.value = !showAside.value;
+};
 const showAsideClass = computed<string>(() =>
   showAside.value ? "skeleton__aside__container--show" : ""
 );
@@ -74,6 +80,9 @@ $asideWidth: 300px;
     &__container {
       position: sticky;
       top: v-bind(headerHeight);
+    }
+    &__panel {
+      display: none;
     }
   }
   &__showTable {
@@ -104,6 +113,16 @@ $asideWidth: 300px;
         &--show {
           transform: translate(0);
         }
+      }
+
+      &__panel {
+        display: block;
+        background-color: rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
       }
     }
   }

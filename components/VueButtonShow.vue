@@ -1,0 +1,57 @@
+<template>
+  <div>
+    <button id="nav-button" @click="$emit('eventClick')" ><span/></button>
+  </div>
+</template>
+
+<script lang="ts" setup>
+defineEmits(["eventClick"]);
+</script>
+
+<style scoped>
+#nav-button {
+  cursor: pointer;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  padding: 10px 40px 15px 0px;
+}
+
+#nav-button span,
+#nav-button span:after,
+#nav-button span:before {
+  transition: all 500ms ease-in-out;
+  border-radius: 1px;
+  height: 5px;
+  width: 40px;
+  background: white;
+  position: absolute;
+  display: block;
+  content: "";
+  background: #000;
+}
+
+#nav-button span:before {
+  top: -10px;
+}
+#nav-button span:after {
+  bottom: -10px;
+}
+
+#nav-button.active span {
+  background-color: transparent;
+}
+
+#nav-button.active span:before,
+#nav-button.active span:after {
+  top: 0;
+}
+
+#nav-button.active span:after {
+  transform: rotate(-45deg);
+}
+
+#nav-button.active span:before {
+  transform: rotate(45deg);
+}
+</style>
