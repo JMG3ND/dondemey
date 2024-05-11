@@ -4,7 +4,7 @@
       <header ref="header" v-if="$slots.header" class="skeleton__header">
         <slot name="header" />
         <div class="skeleton__showTable">
-          <VueButtonShow @event-click="changeShowAside">Tabla de contenido</VueButtonShow>
+          <VueButtonShow :active=showAside @event-click="changeShowAside">Tabla de contenido</VueButtonShow>
         </div>
       </header>
       <div
