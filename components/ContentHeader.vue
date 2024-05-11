@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="container">
-      <img class="container__image" src="/public/logo.png" />
+      <NuxtLink to="/">
+        <img alt="Logo" class="container__image" src="/public/logo.png" />
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -19,6 +21,7 @@
 
   &__image {
     max-height: 50px;
+    cursor: pointer;
   }
 }
 </style>

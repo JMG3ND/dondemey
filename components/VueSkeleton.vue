@@ -3,24 +3,26 @@
     <div class="skeleton">
       <header ref="header" v-if="$slots.header" class="skeleton__header">
         <slot name="header" />
-        <div class="skeleton__showTable">
-          <VueButtonShow :active=showAside @event-click="changeShowAside">Tabla de contenido</VueButtonShow>
+        <div v-if="$slots.aside" class="skeleton__showAside">
+          <VueButtonShow :active="showAside" @event-click="changeShowAside"
+            >Tabla de contenido</VueButtonShow
+          >
+          <span>Contenido</span>
         </div>
       </header>
       <div
-        :class="
-          $slots.aside
-            ? 'skeleton__container--with-aside'
-            : 'skeleton__container'
-        "
+        class="skeleton__container"
+        :class="$slots.aside ? 'skeleton__container--with-aside' : ''"
       >
-        <aside v-if="$slots.aside" class="skeleton__aside">
-          <div
-            v-if="showAside"
-            @click="changeShowAside"
-            class="skeleton__aside__panel"
-          />
-          <div :class="`skeleton__aside__container ${showAsideClass}`">
+        <aside v-if="$slots.aside" :class="`skeleton__aside ${showAsideClass}`">
+          <Teleport to="body">
+            <div
+              v-if="showAside"
+              @click="changeShowAside"
+              class="skeleton__aside__panel"
+            />
+          </Teleport>
+          <div class="skeleton__aside__container">
             <slot name="aside" />
           </div>
         </aside>
@@ -53,12 +55,12 @@ const changeShowAside = (): void => {
   showAside.value = !showAside.value;
 };
 const showAsideClass = computed<string>(() =>
-  showAside.value ? "skeleton__aside__container--show" : ""
+  showAside.value ? "skeleton__aside--show" : ""
 );
 </script>
 
 <style lang="scss" scoped>
-@import '/assets/theme-colors';
+@import "/assets/theme-colors";
 $asideWidth: 300px;
 
 .skeleton {
@@ -70,11 +72,11 @@ $asideWidth: 300px;
     right: 0;
   }
   &__container {
+    padding-top: v-bind(headerHeight);
     &--with-aside {
       display: grid;
       grid-template-columns: $asideWidth 1fr;
       gap: 1rem;
-      padding-top: v-bind(headerHeight);
     }
   }
   &__aside {
@@ -86,15 +88,16 @@ $asideWidth: 300px;
       display: none;
     }
   }
-  &__showTable {
+  &__showAside {
     display: none;
   }
 }
 
 @media screen and (max-width: 900px) {
   .skeleton {
-    &__showTable {
-      display: block;
+    &__showAside {
+      display: flex;
+      align-items: center;
     }
     &__container {
       &--with-aside {
@@ -102,20 +105,18 @@ $asideWidth: 300px;
       }
     }
     &__aside {
-      &__container {
-        @include backgrondBlur;
-        position: fixed;
-        width: $asideWidth;
-        left: 0;
-        top: v-bind(headerHeight);
-        bottom: 0;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
-        &--show {
-          transform: translate(0);
-        }
+      @include backgrondBlur;
+      z-index: 1;
+      position: fixed;
+      width: $asideWidth;
+      left: 0;
+      top: v-bind(headerHeight);
+      bottom: 0;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+      &--show {
+        transform: translate(0);
       }
-
       &__panel {
         display: block;
         background-color: rgba(0, 0, 0, 0.3);
