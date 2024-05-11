@@ -1,0 +1,19 @@
+/* Estilos que definen el diseño de cajas de todos los elementos html */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Configuración de transiciones para el cambio de páginas con nuxtPage */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
