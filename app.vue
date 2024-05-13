@@ -1,16 +1,9 @@
 <template>
   <div>
-    <VueSkeleton>
-      <template #header>
-        <ContentHeader />
-      </template>
-      <template #aside>
-        <ContentAside />
-      </template>
-      <NuxtPage />
-    </VueSkeleton>
+    <NuxtLayout>
+      <NuxtPage/>
+    </NuxtLayout>
   </div>
-  <div></div>
 </template>
 
 <style>
