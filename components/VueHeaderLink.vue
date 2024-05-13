@@ -23,6 +23,7 @@ a {
 .link {
   color: white;
   text-decoration: none;
+  text-align: center;
   padding: 0.5rem 1rem;
   background-color: $color2;
   border-radius: 10px;

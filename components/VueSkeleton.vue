@@ -45,7 +45,7 @@ const changeHeight = () => {
 };
 onMounted(() => {
   changeHeight();
-  window.addEventListener("resize", changeHeight);
+  window.addEventListener("resize", changeHeight, {passive: true});
 });
 onUnmounted(() => window.removeEventListener("resize", changeHeight));
 
@@ -62,7 +62,9 @@ const showAsideClass = computed<string>(() =>
 <style lang="scss" scoped>
 @import "/assets/theme-colors";
 $asideWidth: 300px;
-
+:root {
+  --header-height: v-bind(headerHeight);
+}
 .skeleton {
   &__header {
     z-index: 1;
