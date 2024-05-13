@@ -4,10 +4,7 @@
       <template #header>
         <ContentHeader />
       </template>
-      <template #aside>
-        <ContentAside />
-      </template>
-      <slot/>
+      <slot />
     </VueSkeleton>
   </div>
 </template>

@@ -5,9 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-definePageMeta({
-  layout: "content-aside"
-})
+
 </script>
 
 <style lang="scss" scoped>
