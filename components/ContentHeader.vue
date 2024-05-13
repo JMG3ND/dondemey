@@ -79,7 +79,7 @@ const classShowMenu = computed(() =>
       @include backgrondBlur;
 
       width: 300px;
-      height: calc(100vh - var(--6d7d849d-headerHeight));
+      height: 100vh;
 
       position: absolute;
       top: 100%;
