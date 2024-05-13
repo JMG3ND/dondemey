@@ -45,7 +45,7 @@ const changeHeight = () => {
 };
 onMounted(() => {
   changeHeight();
-  window.addEventListener("resize", changeHeight, {passive: true});
+  window.addEventListener("resize", changeHeight, { passive: true });
 });
 onUnmounted(() => window.removeEventListener("resize", changeHeight));
 
